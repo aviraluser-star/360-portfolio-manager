@@ -1,0 +1,152 @@
+type UserId = principal;
+type Timestamp = int;
+type TaxSummary = 
+ record {
+   ltcgTax: float64;
+   ltcgTotal: float64;
+   positions: vec TaxPosition;
+   stcgTax: float64;
+   stcgTotal: float64;
+   unrealizedTotal: float64;
+ };
+type TaxPosition = 
+ record {
+   bucket: TaxBucket;
+   gainLossAmt: float64;
+   holdingId: HoldingId;
+   taxLiability: float64;
+   ticker: text;
+ };
+type TaxBucket = 
+ variant {
+   ltcg;
+   stcg;
+   unrealized;
+ };
+type TargetAllocation = 
+ record {
+   assetClass: AssetClass;
+   targetPct: float64;
+ };
+type StockRecommendation = 
+ record {
+   action: Action;
+   companyName: text;
+   currentPrice: float64;
+   expectedReturn: float64;
+   riskRating: RiskRating;
+   targetPrice: float64;
+   ticker: text;
+ };
+type RiskRating = 
+ variant {
+   high;
+   low;
+   medium;
+ };
+type RebalancingFrequency = 
+ variant {
+   daily;
+   monthly;
+   weekly;
+ };
+type RebalanceAlert = 
+ record {
+   assetClass: AssetClass;
+   currentPct: float64;
+   driftPct: float64;
+   targetPct: float64;
+   ticker: text;
+ };
+type PortfolioSummary = 
+ record {
+   gainLossAmt: float64;
+   gainLossPct: float64;
+   totalInvestment: float64;
+   totalValue: float64;
+ };
+type PortfolioSettingsView = 
+ record {
+   cashBalance: float64;
+   initialInvestment: float64;
+   name: text;
+   rebalancingFrequency: RebalancingFrequency;
+   riskFreeRate: float64;
+   targetAllocations: vec TargetAllocation;
+ };
+type HoldingInput = 
+ record {
+   assetClass: AssetClass;
+   companyName: text;
+   purchaseDate: Timestamp;
+   purchasePrice: float64;
+   quantity: float64;
+   ticker: text;
+ };
+type HoldingId = nat;
+type Holding = 
+ record {
+   assetClass: AssetClass;
+   companyName: text;
+   id: HoldingId;
+   owner: UserId;
+   purchaseDate: Timestamp;
+   purchasePrice: float64;
+   quantity: float64;
+   ticker: text;
+ };
+type BrokerInput = 
+ record {
+   accountId: text;
+   accountType: AccountType;
+   brokerName: text;
+ };
+type BrokerId = nat;
+type BrokerAccount = 
+ record {
+   accountId: text;
+   accountType: AccountType;
+   brokerName: text;
+   id: BrokerId;
+   owner: UserId;
+ };
+type BenchmarkResult = 
+ record {
+   portfolioYtdReturn: float64;
+   sp500YtdReturn: float64;
+ };
+type AssetClass = 
+ variant {
+   equity;
+   mutualFund;
+ };
+type Action = 
+ variant {
+   buy;
+   hold;
+   sell;
+ };
+type AccountType = 
+ variant {
+   both;
+   delivery;
+   intraday;
+ };
+service : {
+  addBroker: (input: BrokerInput) -> (BrokerAccount);
+  addHolding: (input: HoldingInput) -> (Holding);
+  deleteHolding: (id: HoldingId) -> (bool);
+  getBenchmark: () -> (BenchmarkResult) query;
+  getDailyRecommendations: () -> (vec StockRecommendation) query;
+  getPortfolioSummary: () -> (PortfolioSummary) query;
+  getRebalanceAlerts: () -> (vec RebalanceAlert) query;
+  getSettings: () -> (PortfolioSettingsView) query;
+  getSharpeRatio: () -> (float64) query;
+  getTaxSummary: () -> (TaxSummary) query;
+  getVolatility: () -> (float64) query;
+  listBrokers: () -> (vec BrokerAccount) query;
+  listHoldings: () -> (vec Holding) query;
+  removeBroker: (id: BrokerId) -> (bool);
+  updateHolding: (id: HoldingId, input: HoldingInput) -> (bool);
+  updateSettings: (update: PortfolioSettingsView) -> ();
+}

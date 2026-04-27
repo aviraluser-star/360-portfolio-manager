@@ -1,0 +1,25 @@
+{
+  "overview": "PortfolioIQ is a smart investment portfolio manager for Indian investors. Track holdings, get daily stock picks, analyze risk with Sharpe ratio and volatility metrics, set rebalancing alerts, benchmark against S&P 500, and review tax implications — all in one clean dashboard. Built by Aviral Prasad.",
+  "features": [
+    "Broker auto-suggest dropdown with 11+ Indian brokers (Zerodha, Groww, Upstox, Angel One, and more)",
+    "Daily mock stock recommendations with expected returns and risk ratings",
+    "Holdings management: add, edit, delete stocks with live gain/loss",
+    "Advanced risk metrics: Sharpe ratio, portfolio volatility, rebalancing alerts at 5% drift",
+    "S&P 500 benchmark comparison",
+    "Three-bucket tax analysis: STCG, LTCG, and unrealized positions",
+    "CSV portfolio import",
+    "Cumulative returns performance chart",
+    "Developer credit: Aviral Prasad"
+  ],
+  "category": "productivity",
+  "tags": [
+    "portfolio",
+    "investing",
+    "stocks",
+    "india",
+    "finance",
+    "risk-metrics",
+    "tax-analysis"
+  ],
+  "last_updated": "2026-04-27T10:58:02.986Z"
+}

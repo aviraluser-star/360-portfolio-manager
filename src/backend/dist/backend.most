@@ -1,0 +1,61 @@
+// Version: 1.0.0
+type AccountType__87206413 = {#both; #delivery; #intraday};
+type AssetClass__505888198 = {#equity; #mutualFund};
+type BrokerAccount__335190689 =
+  {
+    accountId : Text;
+    accountType : AccountType__87206413;
+    brokerName : Text;
+    id : BrokerId__223949401;
+    owner : UserId__884953667
+  };
+type BrokerAccount__81602016 = BrokerAccount__335190689;
+type BrokerId__223949401 = BrokerId__722883675;
+type BrokerId__722883675 = Nat;
+type HoldingId__270126229 = Nat;
+type HoldingId__951173264 = HoldingId__270126229;
+type Holding__300230247 =
+  {
+    assetClass : AssetClass__505888198;
+    companyName : Text;
+    id : HoldingId__951173264;
+    owner : UserId__884953667;
+    purchaseDate : Timestamp__851919047;
+    purchasePrice : Float;
+    quantity : Float;
+    ticker : Text
+  };
+type Holding__650183267 = Holding__300230247;
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type RebalancingFrequency__598208211 = {#daily; #monthly; #weekly};
+type TargetAllocation__891016007 =
+  {assetClass : AssetClass__505888198; targetPct : Float};
+type Timestamp__301639476 = Int;
+type Timestamp__851919047 = Timestamp__301639476;
+type UserId__158757552 = Principal;
+type UserId__884953667 = UserId__158757552;
+actor {
+  stable brokers :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?BrokerAccount__81602016]];
+      var elementIndex : Nat__490723111
+    };
+  stable counters : {var nextBrokerId : Nat; var nextHoldingId : Nat};
+  stable holdings :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Holding__650183267]];
+      var elementIndex : Nat__490723111
+    };
+  stable settings :
+    {
+      var cashBalance : Float;
+      var initialInvestment : Float;
+      var name : Text;
+      var rebalancingFrequency : RebalancingFrequency__598208211;
+      var riskFreeRate : Float;
+      var targetAllocations : [TargetAllocation__891016007]
+    }
+};
